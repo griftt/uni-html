@@ -1,31 +1,71 @@
 <template>
 	<view class="mimeBox">
-		<view class="mimeBack">
-			<view class="padding">
-				<view class="cu-avatar round lg margin-left"  v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">
-					<view class="cu-tag badge" :class="index%2==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
-				</view>
-			</view>
-		</view>
-		<view class="cu-bar bg-white margin-top">
-			<view class="action">
-				图片上传
-			</view>
-			<view class="action">
-				{{imgList.length}}/4
-			</view>
-		</view>
-		<view class="cu-form-group">
-			<view class="grid col-4 grid-square flex-sub">
-				<view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-				 <image :src="imgList[index]" mode="aspectFill"></image>
-					<view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
-						<text class='cuIcon-close'></text>
+		
+		
+		<view class="bg-img bg-mask flex align-center" @click="ChooseImage" 
+		:style="{backgroundImage: 'url(' +backGrouodPic+');'+'height: 414upx;'}">
+			<view class="padding-xxl text-white">
+				<view class="padding">
+					<view class="cu-avatar round lg margin-left"  v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">
+						<view class="cu-tag badge" :class="index%2==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 					</view>
 				</view>
-				<view class="solids" @tap="ChooseImage" v-if="imgList.length<4">
-					<text class='cuIcon-cameraadd'></text>
+				<view class="padding-xs text-lg">
+					Only the guilty need fear me.
 				</view>
+			</view>
+		</view>
+		
+		<view class="cu-card dynamic" :class="isCard?'no-card':''">
+			<view class="cu-item shadow">
+				<view class="cu-list menu-avatar">
+					<view class="cu-item">
+						<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+						<view class="content flex-sub">
+							<view>凯尔</view>
+							<view class="text-gray text-sm flex justify-between">
+								2019年12月3日
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="text-content">
+					折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
+				</view>
+				<view class="grid flex-sub padding-lr" :class="isCard?'col-3 grid-square':'col-1'">
+					<view class="bg-img" :class="isCard?'':'only-img'" style="background-image:url('https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg');height: 414upx;"
+					 v-for="(item,index) in isCard?9:1" :key="index">
+					</view>
+				</view>
+				<view class="text-gray text-sm text-right padding">
+					<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+					<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+					<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+				</view>
+			</view>
+		</view>
+		<view class="cu-bar bot tabbar margin-bottom-xl bg-black ">
+			<view class="action " @click="NavChange" data-cur="main" :class="PageCur=='main'?'text-green':'text-gray'">
+				<view class="cuIcon-homefill"></view> 首页
+			</view>
+			<view class="action " @click="NavChange" data-cur="category" :class="PageCur=='category'?'text-green':'text-gray'">
+				<view class="cuIcon-similar"></view> 分类
+			</view>
+			<view class="action  add-action " @click="NavChange" data-cur="submit" :class="PageCur=='submit'?'text-green':'text-gray'">
+				<button class="cu-btn cuIcon-add bg-green shadow"></button>
+				提交
+			</view>
+			<view class="action   " @click="NavChange" data-cur="Collection" :class="PageCur=='Collection'?'text-green':'text-gray'">
+				<view class="cuIcon-cart">
+					<view class="cu-tag badge">99</view>
+				</view>
+				收藏
+			</view>
+			<view class="action " @click="NavChange" data-cur="mime" :class="PageCur=='mime'?'text-green':'text-gray'">
+				<view class="cuIcon-my">
+					<view class="cu-tag badge"></view>
+				</view>
+				我的
 			</view>
 		</view>
 	</view>
@@ -37,126 +77,22 @@
 		data() {
 			return {
 				ColorList: this.ColorList,
+				PageCur:'mime',
+				"backGrouodPic":'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
+				isCard: false,
 				imgList: [],
 				avatar: [
-					'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					'https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg',
-					'https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg',
-					'https://ossweb-img.qq.com/images/lol/web201310/skin/big91012.jpg'
-				],
+					'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'
+					]
 	
 			};
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 		        console.log(option.id); //打印出上个页面传递的参数。
-		       
 		    },
-		method:{
-			PickerChange(e) {
-				this.index = e.detail.value
-			},
-			MultiChange(e) {
-				this.multiIndex = e.detail.value
-			},
-			MultiColumnChange(e) {
-				let data = {
-					multiArray: this.multiArray,
-					multiIndex: this.multiIndex
-				};
-				data.multiIndex[e.detail.column] = e.detail.value;
-				switch (e.detail.column) {
-					case 0:
-						switch (data.multiIndex[0]) {
-							case 0:
-								data.multiArray[1] = ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'];
-								data.multiArray[2] = ['猪肉绦虫', '吸血虫'];
-								break;
-							case 1:
-								data.multiArray[1] = ['鱼', '两栖动物', '爬行动物'];
-								data.multiArray[2] = ['鲫鱼', '带鱼'];
-								break;
-						}
-						data.multiIndex[1] = 0;
-						data.multiIndex[2] = 0;
-						break;
-					case 1:
-						switch (data.multiIndex[0]) {
-							case 0:
-								switch (data.multiIndex[1]) {
-									case 0:
-										data.multiArray[2] = ['猪肉绦虫', '吸血虫'];
-										break;
-									case 1:
-										data.multiArray[2] = ['蛔虫'];
-										break;
-									case 2:
-										data.multiArray[2] = ['蚂蚁', '蚂蟥'];
-										break;
-									case 3:
-										data.multiArray[2] = ['河蚌', '蜗牛', '蛞蝓'];
-										break;
-									case 4:
-										data.multiArray[2] = ['昆虫', '甲壳动物', '蛛形动物', '多足动物'];
-										break;
-								}
-								break;
-							case 1:
-								switch (data.multiIndex[1]) {
-									case 0:
-										data.multiArray[2] = ['鲫鱼', '带鱼'];
-										break;
-									case 1:
-										data.multiArray[2] = ['青蛙', '娃娃鱼'];
-										break;
-									case 2:
-										data.multiArray[2] = ['蜥蜴', '龟', '壁虎'];
-										break;
-								}
-								break;
-						}
-						data.multiIndex[2] = 0;
-						break;
-				}
-				this.multiArray = data.multiArray;
-				this.multiIndex = data.multiIndex;
-			},
-			TimeChange(e) {
-				this.time = e.detail.value
-			},
-			DateChange(e) {
-				this.date = e.detail.value
-			},
-			RegionChange(e) {
-				this.region = e.detail.value
-			},
-			SwitchA(e) {
-				this.switchA = e.detail.value
-			},
-			SwitchB(e) {
-				this.switchB = e.detail.value
-			},
-			SwitchC(e) {
-				this.switchC = e.detail.value
-			},
-			SwitchD(e) {
-				this.switchD = e.detail.value
-			},
-			RadioChange(e) {
-				this.radio = e.detail.value
-			},
-			CheckboxChange(e) {
-				var items = this.checkbox,
-					values = e.detail.value;
-				for (var i = 0, lenI = items.length; i < lenI; ++i) {
-					items[i].checked = false;
-					for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
-						if (items[i].value == values[j]) {
-							items[i].checked = true;
-							break
-						}
-					}
-				}
-			},
+		methods: {
+			
+			
 			ChooseImage() {
 				uni.chooseImage({
 					count: 4, //默认9
@@ -179,10 +115,10 @@
 			},
 			DelImg(e) {
 				uni.showModal({
-					title: '召唤师',
-					content: '确定要删除这段回忆吗？',
-					cancelText: '再看看',
-					confirmText: '再见',
+					title: '删除',
+					content: '确定要删除吗？',
+					cancelText: '留着吧',
+					confirmText: '让它走',
 					success: res => {
 						if (res.confirm) {
 							this.imgList.splice(e.currentTarget.dataset.index, 1)
@@ -190,12 +126,11 @@
 					}
 				})
 			},
-			textareaAInput(e) {
-				this.textareaAValue = e.detail.value
+			IsCard(e) {
+				this.isCard = e.detail.value
 			},
-			textareaBInput(e) {
-				this.textareaBValue = e.detail.value
-			}
+			
+			
 		}
 	}
 	

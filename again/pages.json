@@ -13,6 +13,13 @@
 				"navigationBarTitleText": "我的",
 				"backgroundColor":"red"
 			}
+		},
+		{
+			"path": "pages/submit/publish",
+			"style": {
+				"navigationBarTitleText": "发布",
+				"backgroundColor":"green"
+			}
 		}
 	],
 	"globalStyle": {
