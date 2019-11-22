@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/mime/mime"
+    "pages/mime/mime",
+    "pages/submit/publish"
   ],
   "subPackages": [],
   "window": {

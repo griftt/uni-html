@@ -2,8 +2,8 @@
 	<view class="mimeBox">
 		
 		
-		<view class="bg-img bg-mask flex align-center" @click="ChooseImage" 
-		:style="{backgroundImage: 'url(' +backGrouodPic+');'+'height: 414upx;'}">
+		<view class="bg-img bg-mask flex align-center" @click="ChooseImage" style="backgroundImage: url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg); height: 414upx;"
+	>
 			<view class="padding-xxl text-white">
 				<view class="padding">
 					<view class="cu-avatar round lg margin-left"  v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">

@@ -182,25 +182,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
 
   data: function data() {
     return {
       ColorList: this.ColorList,
+      PageCur: 'mime',
+      "backGrouodPic": 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
+      isCard: false,
       imgList: [],
       avatar: [
       'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'] };
 
 
 
-
   },
   onLoad: function onLoad(option) {//option为object类型，会序列化上个页面传递的参数
     console.log(option.id); //打印出上个页面传递的参数。
-
   },
-  method: {
+  methods: {
+
 
     ChooseImage: function ChooseImage() {var _this = this;
       uni.chooseImage({
@@ -224,10 +237,10 @@ var _default =
     },
     DelImg: function DelImg(e) {var _this2 = this;
       uni.showModal({
-        title: '召唤师',
-        content: '确定要删除这段回忆吗？',
-        cancelText: '再看看',
-        confirmText: '再见',
+        title: '删除',
+        content: '确定要删除吗？',
+        cancelText: '留着吧',
+        confirmText: '让它走',
         success: function success(res) {
           if (res.confirm) {
             _this2.imgList.splice(e.currentTarget.dataset.index, 1);
@@ -235,20 +248,8 @@ var _default =
         } });
 
     },
-
-    NavChange: function NavChange(e) {
-      this.PageCur = e.currentTarget.dataset.cur;
-      var url = "/pages/mime/mime?id=123";
-      if (this.PageCur == "main") {
-        url = "/pages/index/index?id=123";
-
-      } else if (this.PageCur == "mime") {
-        url = "/pages/mime/mime?id=123";
-      }
-
-      uni.redirectTo({
-        url: url });
-
+    IsCard: function IsCard(e) {
+      this.isCard = e.detail.value;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
